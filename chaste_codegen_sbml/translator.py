@@ -445,22 +445,22 @@ def GetReactionStringWithSpeciesNamesAndParameterNames(model,string):
         species = model.getSpecies(i)
         species_id= species.getId()
         species_name = species.getName()
-        if (species_name != ''):
-            string = string.replace(species_id,species_name)
+        # if (species_name != ''):
+        #     string = string.replace(species_id,species_name)
 
     for i in range(num_parameters):
         parameter = model.getParameter(i)
         parameter_id= parameter.getId()
         parameter_name = parameter.getName()
-        if (parameter_name != ''):
-            string = string.replace(parameter_id,parameter_name)
+        # if (parameter_name != ''):
+        #     string = string.replace(parameter_id,parameter_name)
 
     for i in range(num_compartments):
         compartment = model.getCompartment(i)
         compartment_id= compartment.getId()
         compartment_name = compartment.getName()
-        if (compartment_name != ''):
-            string = string.replace(compartment_id,compartment_name)
+        # if (compartment_name != ''):
+        #     string = string.replace(compartment_id,compartment_name)
 
     return string
 
@@ -472,9 +472,9 @@ def GetSpeciesNames(model,string):
     for i in range(num_species):
         species = model.getSpecies(i)
         species_id= species.getId()
-        species_name = species.getName()
-        if (species_name != ''):
-            string = string.replace(species_id,species_name)
+        species_name = species.getName().strip().replace(" ","_")
+        # if (species_name != ''):
+        #     string = string.replace(species_id,species_name)
 
     return string
 
@@ -486,8 +486,8 @@ def GetParameterNames(model,string):
         parameter = model.getParameter(i)
         parameter_id= parameter.getId()
         parameter_name = parameter.getName()
-        if (parameter_name != ''):
-            string = string.replace(parameter_id,parameter_name)
+        # if (parameter_name != ''):
+        #     string = string.replace(parameter_id,parameter_name)
 
     return string
 
@@ -499,8 +499,8 @@ def GetReactionNames(model,string):
         reaction = model.getReaction(i)
         reaction_id= reaction.getId()
         reaction_name = reaction.getName()
-        if (reaction_name != ''):
-            string = string.replace(reaction_id,reaction_name)
+        # if (reaction_name != ''):
+        #     string = string.replace(reaction_id,reaction_name)
 
     return string
 
@@ -829,7 +829,7 @@ def GetStateVariable(n, model):
 def GetStateVariableName(n, model):
     """ Get the ID of the species to use as state variable """
     species = model.getSpecies(n)
-    species_name = species.getName()
+    species_name = species.getName().strip().replace(" ","_")
     return species_name
 
 def GetStateVariableString(model):
