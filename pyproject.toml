@@ -1,0 +1,33 @@
+[project]
+name = "chaste_codegen_sbml"
+version = "0.0.1"
+
+description = "Chaste C++ code generation from SBML"
+
+readme = "README.md"
+license = { file = "LICENSE" }
+
+authors = [{ name = "Kwabena Amponsah" }, { name = "James Osborne" }]
+
+requires-python = ">=3.8"
+
+dependencies = ["Jinja2 >=2.11,<3", "python-libsbml >=5.20,<6"]
+
+[project.optional-dependencies]
+dev = [
+  "flake8==3.9",
+  "isort==5.8",
+  "Jinja2==2.11",
+  "pytest==6.2",
+  "python-libsbml==5.20",
+]
+
+[project.scripts]
+chaste_codegen_sbml = "chaste_codegen_sbml.__main__:main"
+
+[project.urls]
+source = "https://github.com/Chaste/chaste-codegen-sbml"
+
+[build-system]
+requires = ["setuptools>=58", "wheel>=0.38"]
+build-backend = "setuptools.build_meta"
