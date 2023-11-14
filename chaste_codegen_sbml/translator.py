@@ -434,19 +434,6 @@ def GetReactionFormula(n, model):
 
 ################################## NEW ######################################################
 
-def GetSpeciesNames(model,string): 
-
-    num_species = model.getNumSpecies()
-
-    for i in range(num_species):
-        species = model.getSpecies(i)
-        species_id= species.getId()
-        species_name = species.getName().strip().replace(" ","_")
-        # if (species_name != ''):
-        #     string = string.replace(species_id,species_name)
-
-    return string
-
 def GetParameterNames(model,string): 
 
     num_parameters = model.getNumParameters()
@@ -817,8 +804,6 @@ def GetStateVariableString(model):
             state_variables_string += " " + GetCommentDefinition(0, state_variable_name, True)
         else:
             state_variables_string += "\n"
-
-    state_variables_string = GetSpeciesNames(model,state_variables_string)
 
     return state_variables_string
 
