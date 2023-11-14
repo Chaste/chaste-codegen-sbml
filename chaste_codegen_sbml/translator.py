@@ -420,7 +420,6 @@ def GetReaction(n, model):
     """ Get the ID of a reaction to use as a variable name. """
     reaction = model.getReaction(n)
     reaction_id = reaction.getId()
-    reaction_name = reaction.getName()
     return reaction_id
 
 def GetReactionFormula(n, model):
