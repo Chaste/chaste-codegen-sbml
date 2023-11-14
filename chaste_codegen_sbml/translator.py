@@ -434,20 +434,6 @@ def GetReactionFormula(n, model):
 
 ################################## NEW ######################################################
 
-def GetReactionNames(model,string): 
-
-    num_reactions = model.getNumReactions()
-
-    for i in range(num_reactions):
-        reaction = model.getReaction(i)
-        reaction_id= reaction.getId()
-        reaction_name = reaction.getName()
-        # if (reaction_name != ''):
-        #     string = string.replace(reaction_id,reaction_name)
-
-    return string
-
-
 def GetCompartmentNameCorrespondingToId(model,string):
     
     compartment_id = string
@@ -510,8 +496,6 @@ def GetReactionString(model):
         reactions_string += reaction_def
 
         reactions_string += "\n"
-
-    reactions_string = GetReactionNames(model,reactions_string)
 
     return reactions_string
 
@@ -667,9 +651,6 @@ def GetOdesString(model):
             species_name = species_id
         if( (species_id in odes_dict)&(not species.getBoundaryCondition()) ): #species defined by algebraic rules are not in odes_dict
             species_ode = odes_dict[species_id] #Get the corresponding ode
-
-            ######### EDITED #############
-            species_ode = GetReactionNames(model,species_ode)
 
         # species = model.getSpecies(key)
             compartment_id = species.getCompartment() #Get the corresponding compartment
