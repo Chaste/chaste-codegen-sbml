@@ -1,6 +1,4 @@
-import sys
 import os
-from os.path import basename
 from libsbml import SBMLReader
 from . import translator
 from . import filewriters
@@ -57,7 +55,7 @@ def Generate(sbml_file, output_filename=None, output_directory=None):
 
     #Get Name of file
     if not output_filename:
-        output_filename = basename(sbml_file).split('.')[0]
+        output_filename = os.path.basename(sbml_file).split('.')[0]
 
     # If there are events in the model, we define the class as a cell cycle model.
     # Otherwise, the model is assumed to be a subcellular reaction network model.

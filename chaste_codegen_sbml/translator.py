@@ -1,7 +1,3 @@
-import sys
-import os.path
-from libsbml import *
-
 # Script with useful functions to extract the relevant information from an 
 # SBML file needed to define an ODE Model in Chaste
 

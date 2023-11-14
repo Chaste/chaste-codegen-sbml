@@ -1,6 +1,3 @@
-import sys
-import os.path
-from libsbml import *
 from . import translator
 
 # Script with functions that will write all the necessary SBML info into Chaste .cpp 
