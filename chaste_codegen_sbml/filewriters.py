@@ -256,13 +256,11 @@ def GetClassDefinition(filename, model):
   ode_name = GetOdeSystemName(filename)
 
   ##### EDITED ###################### - in this case, the rules are also variables (as totals of other variables)
-  odes_dict = translator.GetOdesDictionary(model)
-  rules_dict = translator.GetRulesDictionary(model)
-  num_species = len(odes_dict) + len(rules_dict)
+  num_state_vars = len(translator.GetOdesDictionary(model))
 
   class_defn_str = (translator.GetBlockCommentDefinition(0, "SBML ODE System", True) + 
                     ode_name + "::" + ode_name + " (std::vector<double> stateVariables)\n" +
-                    translator.AddTabs(1) + ": AbstractOdeSystem(" + str(num_species) + ")\n" 
+                    translator.AddTabs(1) + ": AbstractOdeSystem(" + str(num_state_vars) + ")\n"
                     "{\n" + 
                     translator.AddTabs(1) + "mpSystemInfo.reset(new CellwiseOdeSystemInformation<" + ode_name + ">);\n"
                     "\n" + 
