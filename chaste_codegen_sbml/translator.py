@@ -409,7 +409,6 @@ def GetRulesString(model):
         rule_id = GetRule(i, model)
         rule_def = AddTabs(1) + rule_id + " = " + rules_dict[rule_id] + ";\n"
         rules_string += rule_def
-        rules_string = GetReactionStringWithSpeciesNamesAndParameterNames(model,rules_string)
         rules_string = rules_string.replace("max","fmax")
         rules_string = rules_string.replace("min","fmin")
 
@@ -434,36 +433,6 @@ def GetReactionFormula(n, model):
 
 
 ################################## NEW ######################################################
-
-def GetReactionStringWithSpeciesNamesAndParameterNames(model,string): 
-
-    num_species = model.getNumSpecies()
-    num_parameters = model.getNumParameters()
-    num_compartments = model.getNumCompartments()
-
-    for i in range(num_species):
-        species = model.getSpecies(i)
-        species_id= species.getId()
-        species_name = species.getName()
-        # if (species_name != ''):
-        #     string = string.replace(species_id,species_name)
-
-    for i in range(num_parameters):
-        parameter = model.getParameter(i)
-        parameter_id= parameter.getId()
-        parameter_name = parameter.getName()
-        # if (parameter_name != ''):
-        #     string = string.replace(parameter_id,parameter_name)
-
-    for i in range(num_compartments):
-        compartment = model.getCompartment(i)
-        compartment_id= compartment.getId()
-        compartment_name = compartment.getName()
-        # if (compartment_name != ''):
-        #     string = string.replace(compartment_id,compartment_name)
-
-    return string
-
 
 def GetSpeciesNames(model,string): 
 
@@ -555,8 +524,6 @@ def GetReactionString(model):
         reaction_id = GetReaction(i, model)
         reaction_formula = GetReactionFormula(i, model)
 
-        reaction_formula = GetReactionStringWithSpeciesNamesAndParameterNames(model,reaction_formula)
-
         #Get the relevant strings 
         reaction_params_string = GetReactionParameterString(reaction)
         reaction_def = GetDoubleDefinition(1, reaction_id, reaction_formula, True)
@@ -637,9 +604,6 @@ def GetOdesDictionary(model):
         reaction = model.getReaction(i) 
         #Add reaction products and reactants to the dictionary
         AddReactionToDictionary(odes_dict, reaction)
-
-    for key,value in odes_dict.items():
-        odes_dict[key] = GetReactionStringWithSpeciesNamesAndParameterNames(model,odes_dict[key])
 
     return odes_dict
 
@@ -776,8 +740,6 @@ def GetOdesString(model):
                         species_ode = species_ode + "rDY[" + str(j) + "]"
                     elif ((species_id_new == k) & (not (species_ode == ''))):
                         species_ode = species_ode + "+ rDY[" + str(j) + "]"
-
-            species_ode = GetReactionStringWithSpeciesNamesAndParameterNames(model,species_ode)
 
             compartment_id = species.getCompartment() #Get the corresponding compartment
             compartment_name = GetCompartmentNameCorrespondingToId(model,compartment_id)
