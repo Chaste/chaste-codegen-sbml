@@ -434,19 +434,6 @@ def GetReactionFormula(n, model):
 
 ################################## NEW ######################################################
 
-def GetParameterNames(model,string): 
-
-    num_parameters = model.getNumParameters()
-
-    for i in range(num_parameters):
-        parameter = model.getParameter(i)
-        parameter_id= parameter.getId()
-        parameter_name = parameter.getName()
-        # if (parameter_name != ''):
-        #     string = string.replace(parameter_id,parameter_name)
-
-    return string
-
 def GetReactionNames(model,string): 
 
     num_reactions = model.getNumReactions()
