@@ -180,4 +180,11 @@ void SbmlSrnWrapperModel<SBMLODE, SIZE>::OutputSrnModelParameters(out_stream& rP
     AbstractOdeSrnModel::OutputSrnModelParameters(rParamsFile);
 }
 
+template<typename SBMLODE, unsigned SIZE>
+double SbmlSrnWrapperModel<SBMLODE, SIZE>::GetStateVariable(const std::string& rName)
+{
+    assert(mpOdeSystem != nullptr);
+    return mpOdeSystem->GetStateVariable(rName);
+}
+
 #endif /* SBMLSRNWRAPPERMODEL_CPP_ */

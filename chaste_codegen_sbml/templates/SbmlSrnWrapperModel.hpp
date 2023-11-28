@@ -119,6 +119,12 @@ public:
      */
     void OutputSrnModelParameters(out_stream& rParamsFile);
 
+    /**
+     * @return the value of a given state variable.
+     *
+     * @param rName the name of the state variable
+     */
+    double GetStateVariable(const std::string& rName);
 
 };
 
