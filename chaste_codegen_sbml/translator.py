@@ -1,7 +1,3 @@
-import sys
-import os.path
-from libsbml import *
-
 # Script with useful functions to extract the relevant information from an 
 # SBML file needed to define an ODE Model in Chaste
 
@@ -409,7 +405,6 @@ def GetRulesString(model):
         rule_id = GetRule(i, model)
         rule_def = AddTabs(1) + rule_id + " = " + rules_dict[rule_id] + ";\n"
         rules_string += rule_def
-        rules_string = GetReactionStringWithSpeciesNamesAndParameterNames(model,rules_string)
         rules_string = rules_string.replace("max","fmax")
         rules_string = rules_string.replace("min","fmin")
 
@@ -421,7 +416,6 @@ def GetReaction(n, model):
     """ Get the ID of a reaction to use as a variable name. """
     reaction = model.getReaction(n)
     reaction_id = reaction.getId()
-    reaction_name = reaction.getName()
     return reaction_id
 
 def GetReactionFormula(n, model):
@@ -434,76 +428,6 @@ def GetReactionFormula(n, model):
 
 
 ################################## NEW ######################################################
-
-def GetReactionStringWithSpeciesNamesAndParameterNames(model,string): 
-
-    num_species = model.getNumSpecies()
-    num_parameters = model.getNumParameters()
-    num_compartments = model.getNumCompartments()
-
-    for i in range(num_species):
-        species = model.getSpecies(i)
-        species_id= species.getId()
-        species_name = species.getName()
-        # if (species_name != ''):
-        #     string = string.replace(species_id,species_name)
-
-    for i in range(num_parameters):
-        parameter = model.getParameter(i)
-        parameter_id= parameter.getId()
-        parameter_name = parameter.getName()
-        # if (parameter_name != ''):
-        #     string = string.replace(parameter_id,parameter_name)
-
-    for i in range(num_compartments):
-        compartment = model.getCompartment(i)
-        compartment_id= compartment.getId()
-        compartment_name = compartment.getName()
-        # if (compartment_name != ''):
-        #     string = string.replace(compartment_id,compartment_name)
-
-    return string
-
-
-def GetSpeciesNames(model,string): 
-
-    num_species = model.getNumSpecies()
-
-    for i in range(num_species):
-        species = model.getSpecies(i)
-        species_id= species.getId()
-        species_name = species.getName().strip().replace(" ","_")
-        # if (species_name != ''):
-        #     string = string.replace(species_id,species_name)
-
-    return string
-
-def GetParameterNames(model,string): 
-
-    num_parameters = model.getNumParameters()
-
-    for i in range(num_parameters):
-        parameter = model.getParameter(i)
-        parameter_id= parameter.getId()
-        parameter_name = parameter.getName()
-        # if (parameter_name != ''):
-        #     string = string.replace(parameter_id,parameter_name)
-
-    return string
-
-def GetReactionNames(model,string): 
-
-    num_reactions = model.getNumReactions()
-
-    for i in range(num_reactions):
-        reaction = model.getReaction(i)
-        reaction_id= reaction.getId()
-        reaction_name = reaction.getName()
-        # if (reaction_name != ''):
-        #     string = string.replace(reaction_id,reaction_name)
-
-    return string
-
 
 def GetCompartmentNameCorrespondingToId(model,string):
     
@@ -555,8 +479,6 @@ def GetReactionString(model):
         reaction_id = GetReaction(i, model)
         reaction_formula = GetReactionFormula(i, model)
 
-        reaction_formula = GetReactionStringWithSpeciesNamesAndParameterNames(model,reaction_formula)
-
         #Get the relevant strings 
         reaction_params_string = GetReactionParameterString(reaction)
         reaction_def = GetDoubleDefinition(1, reaction_id, reaction_formula, True)
@@ -569,8 +491,6 @@ def GetReactionString(model):
         reactions_string += reaction_def
 
         reactions_string += "\n"
-
-    reactions_string = GetReactionNames(model,reactions_string)
 
     return reactions_string
 
@@ -637,9 +557,6 @@ def GetOdesDictionary(model):
         reaction = model.getReaction(i) 
         #Add reaction products and reactants to the dictionary
         AddReactionToDictionary(odes_dict, reaction)
-
-    for key,value in odes_dict.items():
-        odes_dict[key] = GetReactionStringWithSpeciesNamesAndParameterNames(model,odes_dict[key])
 
     return odes_dict
 
@@ -730,9 +647,6 @@ def GetOdesString(model):
         if( (species_id in odes_dict)&(not species.getBoundaryCondition()) ): #species defined by algebraic rules are not in odes_dict
             species_ode = odes_dict[species_id] #Get the corresponding ode
 
-            ######### EDITED #############
-            species_ode = GetReactionNames(model,species_ode)
-
         # species = model.getSpecies(key)
             compartment_id = species.getCompartment() #Get the corresponding compartment
 
@@ -776,8 +690,6 @@ def GetOdesString(model):
                         species_ode = species_ode + "rDY[" + str(j) + "]"
                     elif ((species_id_new == k) & (not (species_ode == ''))):
                         species_ode = species_ode + "+ rDY[" + str(j) + "]"
-
-            species_ode = GetReactionStringWithSpeciesNamesAndParameterNames(model,species_ode)
 
             compartment_id = species.getCompartment() #Get the corresponding compartment
             compartment_name = GetCompartmentNameCorrespondingToId(model,compartment_id)
@@ -855,8 +767,6 @@ def GetStateVariableString(model):
             state_variables_string += " " + GetCommentDefinition(0, state_variable_name, True)
         else:
             state_variables_string += "\n"
-
-    state_variables_string = GetSpeciesNames(model,state_variables_string)
 
     return state_variables_string
 
